@@ -5,16 +5,17 @@ body {
 h3 {
     text-align: center;
 }
-.carrito {
+
+
+p {
+    font-weight: bolder;
+}
+
+.cart {
     padding-top: 20em;
     padding-left: 10em; 
 }
 
 .list-group-item {
     background-color: rgb(241, 239, 239) !important;
-}
-
-
-p {
-    font-weight: bolder;
 }

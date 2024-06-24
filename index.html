@@ -11,9 +11,9 @@
 
 <!-- 
    SEGUNDA PREENTREGA:
-     El usuario tiene la posibilidad de agregar elementos al carrito y visualizar el total
-     Puede también vaciar el carrito u elimiar de forma individual cada libro agregado al mismo
-     Podrá visualizar una alerta independientemente si realiza la compra o no
+     . El usuario tiene la posibilidad de agregar elementos al carrito y visualizar el total
+     . Puede también vaciar el carrito u elimiar de forma individual cada libro agregado al mismo
+     . Podrá visualizar una alerta independientemente si realiza la compra o no
 -->
 <!DOCTYPE html>
 <html lang="es">
@@ -34,20 +34,20 @@
         </div>
         <div class="row">
             <!-- Lista de libros -->
-            <main id="libros" class="col-sm-7 row"></main>
+            <main id="books" class="col-sm-7 row"></main>
 
             <!-- Carrito -->
-            <div class="col-sm-5 carrito">
+            <div class="col-sm-5 cart">
                 <h4>Carrito</h4>
-                    <ul id="carrito" class="list-group"></ul>
+                    <ul id="cart" class="list-group"></ul>
                 <hr>
                 <!-- Total -->
                 <div class="totals">
                     <p class="text-right">Total: $ <span id="total"></span></p>
-                    <button id="vaciarCarrito" class="btn btn-danger">Vaciar</button>
-    
-                    <!-- Total -->
-                    <button id="comprar" class="btn btn-success">Comprar</button>
+                    
+                    <!-- Botones de acción -->
+                    <button id="emptyCart" class="btn btn-danger">Vaciar</button>
+                    <button id="buyBook" class="btn btn-success">Comprar</button>
                  </div>
             </div>
         </div>

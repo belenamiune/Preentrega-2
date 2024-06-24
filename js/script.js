@@ -1,3 +1,4 @@
+// Variables
 const books =  [ 
         {
             id: 1,
@@ -49,130 +50,128 @@ const books =  [
         },
 ];
 
-let carrito = [];
+let cart = [];
 const peso = '$';
-const listaLibros = document.querySelector('#libros');
-const carritoEL = document.querySelector('#carrito');
+const booksList = document.querySelector('#books');
+const cartEl = document.querySelector('#cart');
 const total = document.querySelector('#total');
-const botonVaciarCarrito = document.querySelector('#vaciarCarrito');
-const botonComprar = document.querySelector('#comprar');
+const buttonEmptyCart = document.querySelector('#emptyCart');
+const buyBookButton = document.querySelector('#buyBook');
 
 
 // Mensaje de bienvenida con el nombre ingresado por el usuario
-// let userName = prompt("Introduce tu nombre, por favor");
-// let userEmail = prompt("Introduce tu email, por favor");
-// const userObj = {
-//     username: userName,
-//     email: userEmail
-// }
-// localStorage.setItem("user", JSON.stringify(userObj));
-// alert("¡Hola " + userName + ", encantado de verte!");
+let userName = prompt("Introduce tu nombre, por favor");
+let userEmail = prompt("Introduce tu email, por favor");
+const userObj = {
+    userName: userName,
+    email: userEmail
+}
+localStorage.setItem("user", JSON.stringify(userObj));
+alert("¡Hola " + userName + ", encantado de verte!");
 
 
 // Función que arma todos los productos del array de books en el HTML
 renderBooks = () => {
     books.forEach((info) => {
         
-        const miNodo = document.createElement('div');
-        miNodo.classList.add('card', 'col-sm-4');
+        const miNode = document.createElement('div');
+        miNode.classList.add('card', 'col-sm-4');
         
-        const miNodoCardBody = document.createElement('div');
-        miNodoCardBody.classList.add('card-body');
+        const miNodeCardBody = document.createElement('div');
+        miNodeCardBody.classList.add('card-body');
 
 
         // Título
-        const miNodoTitle = document.createElement('h5');
-        miNodoTitle.classList.add('card-title');
-        miNodoTitle.textContent = info.name;
+        const miNodeTitle = document.createElement('h5');
+        miNodeTitle.classList.add('card-title');
+        miNodeTitle.textContent = info.name;
         
         // Autor
-        const miNodoAutor = document.createElement('h6');
-        miNodoAutor.classList.add('card-text');
-        miNodoAutor.textContent = info.autor;
+        const miNodeAutor = document.createElement('h6');
+        miNodeAutor.classList.add('card-text');
+        miNodeAutor.textContent = info.autor;
 
         // Imagen
-        const miNodoImagen = document.createElement('img');
-        miNodoImagen.classList.add('img-fluid');
-        miNodoImagen.setAttribute('src', info.imagen);
+        const miNodeImage = document.createElement('img');
+        miNodeImage.classList.add('img-fluid');
+        miNodeImage.setAttribute('src', info.imagen);
 
         // Precio
-        const miNodoPrecio = document.createElement('p');
-        miNodoPrecio.classList.add('card-text');
-        miNodoPrecio.textContent = `${peso} ${info.price}`;
+        const miNodePrice = document.createElement('p');
+        miNodePrice.classList.add('card-text');
+        miNodePrice.textContent = `${peso} ${info.price}`;
 
         // Boton para agregar al carrito
-        const miNodoBoton = document.createElement('button');
-        miNodoBoton.classList.add('btn', 'btn-primary');
-        miNodoBoton.textContent = 'Añadir al carrito';
-        miNodoBoton.setAttribute('marcador', info.id);
-        miNodoBoton.addEventListener('click', addToCart);
+        const miNodeButton = document.createElement('button');
+        miNodeButton.classList.add('btn', 'btn-primary');
+        miNodeButton.textContent = 'Añadir al carrito';
+        miNodeButton.setAttribute('marker', info.id);
+        miNodeButton.addEventListener('click', addToCart);
 
 
         // Agregamos los nodos para que se "dibujen" en el HTML
-        miNodoCardBody.appendChild(miNodoImagen);
-        miNodoCardBody.appendChild(miNodoTitle);
-        miNodoCardBody.appendChild(miNodoAutor);
-        miNodoCardBody.appendChild(miNodoPrecio);
-        miNodoCardBody.appendChild(miNodoBoton);
-        miNodo.appendChild(miNodoCardBody);
-        listaLibros.appendChild(miNodo);
+        miNodeCardBody.appendChild(miNodeImage);
+        miNodeCardBody.appendChild(miNodeTitle);
+        miNodeCardBody.appendChild(miNodeAutor);
+        miNodeCardBody.appendChild(miNodePrice);
+        miNodeCardBody.appendChild(miNodeButton);
+        miNode.appendChild(miNodeCardBody);
+        booksList.appendChild(miNode);
     });
 }
 
-//Función que añade el libro al carrito
-addToCart = (evento) => {
-    carrito.push(evento.target.getAttribute('marcador'));
-    localStorage.setItem("carrito", JSON.stringify(carrito))
+// Función que añade el libro al carrito
+addToCart = (event) => {
+    cart.push(event.target.getAttribute('marker'));
     renderCart();
 }
 
 // Función que muestra todos los elementos cargados al carrito visualemente
 renderCart = () => {
-    carritoEL.textContent = '';
+    cartEl.textContent = '';
     
+    const cartWithoutDuplicates = [...new Set(cart)];
 
-    const carritoSinDuplicados = [...new Set(carrito)];
-
-    carritoSinDuplicados.forEach((item) => {
-        const miItem = books.filter((itemBaseDatos) => {
-            return itemBaseDatos.id === parseInt(item);
+    cartWithoutDuplicates.forEach((item) => {
+        const miItem = books.filter((itemsList) => {
+            return itemsList.id === parseInt(item);
         });
         
-        const numeroUnidadesItem = carrito.reduce((total, itemId) => {
+        const itemAmount = cart.reduce((total, itemId) => {
             return itemId === item ? total += 1 : total;
         }, 0);
 
-        const miNodo = document.createElement('li');
-        miNodo.classList.add('list-group-item', 'text-right', 'mx-2');
-        miNodo.textContent = `${numeroUnidadesItem} x ${miItem[0].name} - ${peso}${miItem[0].price}`;
+        const miNode = document.createElement('li');
+        miNode.classList.add('list-group-item', 'text-right', 'mx-2');
+        miNode.textContent = `${itemAmount} x ${miItem[0].name} - ${peso}${miItem[0].price}`;
         
 
-        const miBoton = document.createElement('button');
-        miBoton.classList.add('btn', 'btn-danger', 'mx-5');
-        miBoton.textContent = 'X';
-        miBoton.style.marginLeft = '1rem';
-        miBoton.dataset.item = item;
-        miBoton.addEventListener('click', deleteBookfromCart);
-        miNodo.appendChild(miBoton);
-        carritoEL.appendChild(miNodo);
+        const miButton = document.createElement('button');
+        miButton.classList.add('btn', 'btn-danger', 'mx-5');
+        miButton.textContent = 'X';
+        miButton.style.marginLeft = '1rem';
+        miButton.dataset.item = item;
+        miButton.addEventListener('click', deleteBookfromCart);
+        miNode.appendChild(miButton);
+        cartEl.appendChild(miNode);
     });
     total.textContent = calcTotal();
 }
 
 // Función que elimina un libro del carrito
-deleteBookfromCart = (evento) => {
-    const id = evento.target.dataset.item;
-    carrito = carrito.filter((carritoId) => {
-        return carritoId !== id;
+deleteBookfromCart = (event) => {
+    const id = event.target.dataset.item;
+    cart = cart.filter((cartId) => {
+        return cartId !== id;
     });
     renderCart();
 }
 
 // Función que calcula el total
 calcTotal = () => {
-    return carrito.reduce((total, item) => {
-        const miItem = books.filter((itemBaseDatos) => {
-            return itemBaseDatos.id === parseInt(item);
+    return cart.reduce((total, item) => {
+        const miItem = books.filter((itemsList) => {
+            return itemsList.id === parseInt(item);
         });
         return total + miItem[0].price;
     }, 0).toFixed(2);
@@ -180,22 +179,25 @@ calcTotal = () => {
 
 // Función que vacía el carrito
 emptyCart = () => {
-    carrito = [];
+    cart = [];
     renderCart();
 }
 
 // Función para confirmar la compra
 buyBook = () => {
-    if(carrito.length > 0) {
+    if(cart.length > 0) {
         showSuccessAlert();
     } else {
         showWarningAlert();
     }
+    setTimeout(() => {
+        cart = [];
+        renderCart();
+    }, 5000);
 }
 
 
 // Función que genera un alert mostrando el resultado exitoso de la compra 
-
 showSuccessAlert = () => {
     const user = localStorage.getItem("user");
     const userData = JSON.parse(user);
@@ -203,7 +205,7 @@ showSuccessAlert = () => {
     const successAlert = document.createElement("div");
     successAlert.role = "alert"
     successAlert.className = "alert alert-success alert-dismissible fade show";
-    successAlert.textContent = `¡Muchísimas gracias por su compra ${userData.username}! Pronto estará recibiendo en ${userData.email} la factura correspondiente.`
+    successAlert.textContent = `¡Muchísimas gracias por su compra ${userData.userName}! Pronto estará recibiendo en ${userData.email} la factura correspondiente.`
     const container = document.querySelector(".totals");
     container.appendChild(successAlert);
 
@@ -226,9 +228,9 @@ showWarningAlert = () => {
     }, 5000);
 }
 
-// Evento
-botonVaciarCarrito.addEventListener('click', emptyCart);
-botonComprar.addEventListener('click', buyBook);
+// Eventos
+buttonEmptyCart.addEventListener('click', emptyCart);
+buyBookButton.addEventListener('click', buyBook);
 
 // Funciones que se inician con el proyecto
 renderBooks();
