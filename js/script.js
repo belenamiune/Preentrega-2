@@ -60,14 +60,17 @@ const buyBookButton = document.querySelector('#buyBook');
 
 
 // Mensaje de bienvenida con el nombre ingresado por el usuario
-let userName = prompt("Introduce tu nombre, por favor");
-let userEmail = prompt("Introduce tu email, por favor");
-const userObj = {
-    userName: userName,
-    email: userEmail
-}
-localStorage.setItem("user", JSON.stringify(userObj));
-alert("¡Hola " + userName + ", encantado de verte!");
+saveUserData = () => {
+    let userNameInput = document.getElementById("userName");
+    let userEmailInput = document.getElementById("userEmail");
+    
+    const userObj = {
+        userName: userNameInput.value,
+        email: userEmailInput.value
+    }
+    localStorage.setItem("user", JSON.stringify(userObj));
+    alert("¡Hola " + userNameInput.value + ", encantado de verte!");
+};
 
 
 // Función que arma todos los productos del array de books en el HTML
@@ -219,7 +222,7 @@ showWarningAlert = () => {
     const warningAlert = document.createElement("div");
     warningAlert.role = "alert"
     warningAlert.className = "alert alert-warning alert-dismissible fade show";
-    warningAlert.textContent = "Para avanzar con la compra debe agregar por lo menos un item al carrito.";
+    warningAlert.textContent = "Para continuar con la compra debe agregar por lo menos un item al carrito.";
     const container = document.querySelector(".totals");
     container.appendChild(warningAlert);
 
